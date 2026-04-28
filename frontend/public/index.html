@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="theme-color" content="#0a0a0f" />
+        <meta name="description" content="E Garson - Dijital Restoran Yonetim Sistemi" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet" />
+        <title>E Garson | Dijital Restoran Yonetimi</title>
+        <style>
+            html, body { margin: 0; padding: 0; background-color: #0a0a0f; min-height: 100vh; min-height: -webkit-fill-available; }
+            #root { min-height: 100vh; min-height: -webkit-fill-available; background-color: #0a0a0f; }
+            #app-loader { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #0a0a0f; z-index: 99999; }
+            #app-loader span { color: #f97316; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 18px; font-weight: 600; }
+            .loader-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #f97316; margin-left: 4px; animation: ldot 1.2s infinite; }
+            .loader-dot:nth-child(2) { animation-delay: 0.2s; }
+            .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+            @keyframes ldot { 0%,80%,100% { opacity: 0.3; } 40% { opacity: 1; } }
+        </style>
+    </head>
+    <body>
+        <noscript>JavaScript gereklidir.</noscript>
+        <div id="app-loader"><span>E Garson<span class="loader-dot"></span><span class="loader-dot"></span><span class="loader-dot"></span></span></div>
+        <div id="root"></div>
+        <script>
+            window.addEventListener('error', function(e) {
+                console.error('Global error:', e.message, e.filename, e.lineno);
+                var loader = document.getElementById('app-loader');
+                if (loader) loader.style.display = 'none';
+            });
+        </script>
+    </body>
+</html>
