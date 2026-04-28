@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: egarson-mongo
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - egarson-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: egarson-backend
+    restart: always
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017
+      - DB_NAME=egarson_db
+      - CORS_ORIGINS=https://${DOMAIN}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - FRONTEND_URL=https://${DOMAIN}
+    depends_on:
+      - mongodb
+    networks:
+      - egarson-net
+    ports:
+      - "8001:8001"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_BACKEND_URL=https://${DOMAIN}
+    container_name: egarson-frontend
+    restart: always
+    networks:
+      - egarson-net
+    ports:
+      - "3000:80"
+
+  nginx:
+    image: nginx:alpine
+    container_name: egarson-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - egarson-net
+
+volumes:
+  mongo_data:
+
+networks:
+  egarson-net:
+    driver: bridge
